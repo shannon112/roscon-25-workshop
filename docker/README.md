@@ -130,7 +130,7 @@ You can run the container with GUI enabled with
 
 The script will:
 
-- Start and run a container from `px4/roscon-25-workshop` image.
+- Start and run a container from `dronecode/roscon-25-workshop` image.
 - Name it `px4-roscon-25`.
 - Ensure that GUI can be used from inside the container.
 - Mount the `roscon-25-workshop/px4_roscon_25` folder in `~/roscon-25-workshop_ws/src/`.
@@ -153,7 +153,7 @@ You can run the container in headless mode with
 
 The script will:
 
-- Start and run a container from `px4/roscon-25-workshop` image.
+- Start and run a container from `dronecode/roscon-25-workshop` image.
 - Name it `px4-roscon-25`.
 - Mount the `roscon-25-workshop/px4_roscon_25` folder in `~/roscon-25-workshop_ws/src/`.
 - Expose the udp port `18570` outside the container so that a QGC instance running on the host can connect to PX4 running in the container.
