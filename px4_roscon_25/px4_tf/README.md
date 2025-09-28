@@ -41,7 +41,8 @@ Please refer to the [docker guide](../../docker/README.md) for running the comma
 
 ### Example 1 - single drone spawning in Gazebo position (0,0,0)
 
-When a single drone is simulated and the drone is spawned in the Gz world in position (0,0,0), then the node can be used without additional commands
+When a single drone is simulated and the drone is spawned in the Gz world in position (0,0,0), then the node can be used without additional commands.
+Please run the following commands in separate terminals.
 
 1. Start Gazebo, spawn a drone and attach a PX4 instance to it.
    1. Start Gazebo:
@@ -87,3 +88,74 @@ When a single drone is simulated and the drone is spawned in the Gz world in pos
    ```
 
    Then open Foxglove client, select a 3D panel, set `odom` as reference frame and toggle on the visualization of `base_link` frame.
+
+   ![Single drone](./docs/single_drone.png)
+
+### Example 2 - two drones
+
+1. Start Gazebo, spawn a drone and attach a PX4 instance to it.
+   1. Start Gazebo:
+
+      ```sh
+      python3 /home/ubuntu/PX4-gazebo-models/simulation-gazebo --model_store /home/ubuntu/PX4-gazebo-models/
+      ```
+
+   2. Spawn a `x500` quadrotor model in gz position (1,0,0) facing gz x-axis (ROS 2 East). Instance id is set to 1 (`-i 1`) to ensure unique namespace for the px4_topics
+
+      ```sh
+      PX4_GZ_STANDALONE=1 PX4_SYS_AUTOSTART=4001 PX4_SIM_MODEL=gz_x500 PX4_GZ_MODEL_POSE="1,0,0,0,0,0" PX4_PARAM_UXRCE_DDS_SYNCT=0 /home/ubuntu/px4_sitl/bin/px4 -w /home/ubuntu/px4_sitl/romfs -i 1
+      ```
+
+   3. Spawn a second `x500` quadrotor model in gz position (-11,0,0) facing gz x-axis (ROS 2 East). Instance id is set to 2 (`-i 2`) to ensure unique namespace for the px4_topics
+
+      ```sh
+      PX4_GZ_STANDALONE=1 PX4_SYS_AUTOSTART=4001 PX4_SIM_MODEL=gz_x500 PX4_GZ_MODEL_POSE="-1,0,0,0,0,0" PX4_PARAM_UXRCE_DDS_SYNCT=0 /home/ubuntu/px4_sitl/bin/px4 -w /home/ubuntu/px4_sitl/romfs -i 2
+      ```
+
+   4. Start QGC:
+
+      ```sh
+      /home/ubuntu/QGroundControl/qgroundcontrol
+      ```
+
+2. Start the MicroXRCE Agent
+
+   ```sh
+   MicroXRCEAgent udp4 -p 8888
+   ```
+
+3. Use `ros_gz_bridge` to bridge gz `/Clock` topic
+
+   ```sh
+   ros2 run ros_gz_bridge parameter_bridge /clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock
+   ```
+
+4. Start two `px4_tf_publisher` instances, one for each vehicle.
+
+   ```sh
+   ros2 run px4_tf px4_tf_publisher --ros-args -p use_sim_time:=true -r __ns:=/px4_1 -p px4_tf_prefix:=px4_1
+   ```
+
+   ```sh
+   ros2 run px4_tf px4_tf_publisher --ros-args -p use_sim_time:=true -r __ns:=/px4_2 -p px4_tf_prefix:=px4_2
+   ```
+
+5. Start two static tf publishers to link `px4_1odom` and `px4_2odom` to a common `map` frame
+
+   ```sh
+   ros2 run tf2_ros static_transform_publisher --x 1 --y 0 --z 0 --yaw 0 --pitch 0 --roll 0 --frame-id map --child-frame-id px4_2odom
+   ```
+
+   ```sh
+   ros2 run tf2_ros static_transform_publisher --x -1 --y 0 --z 0 --yaw 0 --pitch 0 --roll 0 --frame-id map --child-frame-id px4_2odom
+   ```
+
+6. Use Foxglove to visualize your data, first start the foxglove bridge
+
+   ```sh
+   ros2 run foxglove_bridge foxglove_bridge --ros-args -p use_sim_time:=true
+   ```
+
+   Then open Foxglove client, select a 3D panel, set `odom` as reference frame and toggle on the visualization of `base_link` frame.
+
+   ![Two drones](./docs/two_drones.png)
