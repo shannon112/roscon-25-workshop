@@ -113,7 +113,7 @@ The container can be build by running
 
 ```sh
 cd roscon-25-workshop
-./docker/docker_build_amd64.sh
+./docker/docker_build.sh
 ```
 
 ## Running the container
