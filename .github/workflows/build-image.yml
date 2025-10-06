@@ -12,6 +12,7 @@ jobs:
   build_and_push:
     runs-on: [runs-on,runner=4cpu-linux-x64,image=ubuntu24-full-x64,"run-id=${{ github.run_id }}",extras=s3-cache]
     steps:
+      - uses: runs-on/action@v1
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -31,3 +32,5 @@ jobs:
           file: ./docker/Dockerfile
           push: true
           tags: dronecode/roscon-25-workshop:latest
+          cache-from: type=gha,version=1
+          cache-to: type=gha,version=1,mode=max
