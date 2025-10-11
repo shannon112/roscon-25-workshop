@@ -2,8 +2,9 @@
 set -eo pipefail
 
 QGC_VERSION=$1
+TARGETARCH=$2
 
-if ["${TARGETARCH}" = "amd64" ]; then
+if [ "${TARGETARCH}" = "amd64" ]; then
     cd /home/${USER}
     wget https://github.com/mavlink/qgroundcontrol/releases/download/${QGC_VERSION}/QGroundControl-x86_64.AppImage
     chmod +x ./QGroundControl-x86_64.AppImage
