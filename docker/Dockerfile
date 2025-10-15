@@ -32,6 +32,7 @@ RUN --mount=type=bind,source=./docker/scripts/build_opencv.sh,target=/home/${USE
 FROM base AS pre-dev
 
 COPY --from=build-opencv /OpenCV/install /usr/local
+RUN echo "/usr/local/lib" > /etc/ld.so.conf.d/opencv.conf && ldconfig
 
 ########################################
 ##      BUILD ROS 2 DEPENDENCIES      ##
