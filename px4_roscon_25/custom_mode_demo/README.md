@@ -43,6 +43,16 @@ The demo executes the following autonomous sequence:
    ros2 launch custom_mode_demo custom_mode_demo.launch.py
    ```
 
+4. Differently from the Offboard control exercise, the custom mode demo does not automatically switch to the correct external mode _CustomWaypoints_ and it does not arm the drone.
+
+   1. On the QGC window, fist enter _CustomWaypoints_ mode:
+
+      ![change_mode](../../docs/assets/change_mode.png)
+
+   2. Then click on the `Not Ready` label and arm the vehicle:
+
+      ![arm vehicle](../../docs/assets/arm_vehicle.png)
+
 The `custom_mode_demo.launch.py` can also start the _MicroXrceAgent_ and the _gz clock bridge_. Set the launch arguments `run_uxrcedds_agent` or `run_gz_clock_bridge` to `true` to run them if you don't use  `common.launch.py`.
 
 ## Exercises
@@ -50,3 +60,6 @@ The `custom_mode_demo.launch.py` can also start the _MicroXrceAgent_ and the _gz
 1. Add any kind of parameter, that affects CustomWaypoint or CustomYaw
 2. Explore what happens if you want to change the Mode order in the Executor
 3. Add another Mode after yaw, where you change the altitude to 3 m before landing
+
+The solution to the exercise is commented out at the end of the `OffboardDemo.cpp`, `OffboardDemo.hpp` and `offboard_demo.launch.py`.
+Feel free to uncomment it and recompile the package to unveil it.

@@ -36,9 +36,11 @@ ros2 launch px4_roscon_25 common.launch.py
 and finally the `teleop` launchfile and the _keyboard_monitor_ node.
 
 ```sh
-ros2 launch telop teleop.launch.py
+ros2 launch teleop teleop.launch.py
 ```
 
 ```sh
 ros2 run teleop_twist_rpyt_keyboard teleop_twist_rpyt_keyboard
 ```
+
+Just like in the Custom Mode demo, the teleop one requires you to manually activate it and arm the drone!
