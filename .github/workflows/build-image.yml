@@ -51,8 +51,9 @@ jobs:
           tags: |
             dronecode/roscon-25-workshop:latest-${{ matrix.arch }}
             dronecode/roscon-25-workshop:sha-${{ github.sha }}-${{ matrix.arch }}
-          cache-from: type=gha,version=1
-          cache-to: type=gha,version=1,mode=max
+          cache-from: type=gha,version=1,scope=${{ matrix.arch }}
+          cache-to: type=gha,version=1,mode=max,scope=${{ matrix.arch }}
+
 
   deploy_arch_images:
     name: Deploying to Registry
