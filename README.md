@@ -32,6 +32,10 @@ Solutions are provided either **commented out in the code** (you can uncomment a
 
 For more detailed instructions and guidance, please refer to the dedicated **README** for each example.
 
+### Presentation
+
+[Link to Presentation on Google Slides](https://docs.google.com/presentation/d/1S0erGP3pqjSlPU8--NCr8zwdNYxXy2enIBOqPs76fCQ/edit?usp=sharing)
+
 ### Introduction & Drone Architecture
 
 [PX4 Documentation](https://docs.px4.io/main/en/)
