@@ -37,7 +37,8 @@ if [ "$NO_GUI" = false ]; then
         DOCKER_CMD="$DOCKER_CMD -e NVIDIA_VISIBLE_DEVICES=all"
         DOCKER_CMD="$DOCKER_CMD -e NVIDIA_DRIVER_CAPABILITIES=all"
     else
-        DOCKER_CMD="$DOCKER_CMD --device /dev/dri:/dev/dri"
+        # DOCKER_CMD="$DOCKER_CMD --device /dev/dri:/dev/dri"
+        DOCKER_CMD="$DOCKER_CMD --device /dev/dri:/dev/dri --group-add video --privileged"
     fi
 else
     DOCKER_CMD="$DOCKER_CMD -p 18570:18570/udp"
